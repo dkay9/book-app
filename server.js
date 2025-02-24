@@ -26,6 +26,8 @@ app.set("view engine", "ejs"); // Set EJS as template engine
 app.use(express.static("public")); // Serve static files
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
+app.use(express.json());
+ 
 
 // Setup Sessions - stored in MongoDB
 app.use(
@@ -45,6 +47,7 @@ app.use(passport.session());
 
 
 // Routes
+app.use("/", authRoutes);
 app.use("/auth", authRoutes);
 app.use("/books", booksRoutes);
 

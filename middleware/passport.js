@@ -4,11 +4,19 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 
 passport.use(
-  new LocalStrategy({ usernameField: "studentId" }, async (studentId, password, done) => {
+  new LocalStrategy({ usernameField: "userId", passwordField: "password" }, 
+    async (userId, password, done) => { // Accepts both studentId and adminId
     try {
-      const user = await User.findOne({ studentId });
-      if (!user) return done(null, false, { message: "Invalid Student ID" });
+        console.log("Looking for user:", userId);
+      // check for user by studentId or adminId  
+      let user = await User.findOne({
+        $or: [{ studentId: userId }, { adminId: userId }]
+      })
+      if (!user) return done(null, false, { message: "User not found" });
 
+      console.log("User Found:", user);
+
+      // check password
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) return done(null, false, { message: "Incorrect Password" });
 

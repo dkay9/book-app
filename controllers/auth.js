@@ -32,19 +32,24 @@ exports.signup = async (req, res) => {
 
     res.send(`Signup successful! Check your email for your ${idType}.`);
   } catch (err) {
+    console.error("Signup Error:", err)
     res.status(500).send("Error registering user.");
   }
 };
 
 // Login Controller
 exports.login = (req, res, next) => {
+    console.log("Login Request Body:", req.body);
     passport.authenticate("local", (err, user, info) => {
-      if (err) return res.status(500).json({ error: "Internal server error" });
-      if (!user) return res.status(401).json({ error: "Invalid ID or password" });
+      if (err) return res.status(500).send("Internal server error");
+      if (!user) return res.status(401).send("Invalid ID or password");
   
       req.logIn(user, (err) => {
-        if (err) return res.status(500).json({ error: "Login failed" });
-        return res.json({ message: "Login successful", user });
+        if (err) return res.status(500).send("Login failed");
+  
+        // Redirect based on user role
+        const redirectUrl = user.role === "admin" ? "/admin/dashboard" : "/books";
+        return res.json({ message: "Login successful", user, redirectUrl });
       });
     })(req, res, next);
   };
