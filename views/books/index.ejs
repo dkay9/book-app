@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Search</title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- Link your CSS file -->
+</head>
+<body>
+
+    <h1>Search for Books</h1>
+
+    <form action="/books/search" method="GET">
+        <input type="text" name="query" placeholder="Search by name">
+        <input type="text" name="author" placeholder="Filter by author">
+        <input type="text" name="department" placeholder="Filter by department">
+        <button type="submit">Search</button>
+    </form>
+
+    <h2>Search Results:</h2>
+    <ul>
+        <% books.forEach(book => { %>
+            <li>
+                <h3><%= book.name %></h3>
+                <p>Author: <%= book.author %></p>
+                <p>Description: <%= book.description %></p>
+                <img src="<%= book.coverImage %>" alt="Book Cover" width="100">
+            </li>
+        <% }) %>
+    </ul>
+
+</body>
+</html>

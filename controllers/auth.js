@@ -16,6 +16,8 @@ exports.signup = async (req, res) => {
     const userId = newUser.role === "admin" ? newUser.adminId : newUser.studentId;
     const idType = newUser.role === "admin" ? "Admin ID" : "Student ID";
 
+    console.log(`New user created: ${idType} = ${userId}`);
+
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }, 
