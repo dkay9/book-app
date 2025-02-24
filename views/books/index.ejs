@@ -17,17 +17,26 @@
         <button type="submit">Search</button>
     </form>
 
-    <h2>Search Results:</h2>
-    <ul>
-        <% books.forEach(book => { %>
-            <li>
-                <h3><%= book.name %></h3>
-                <p>Author: <%= book.author %></p>
-                <p>Description: <%= book.description %></p>
-                <img src="<%= book.coverImage %>" alt="Book Cover" width="100">
-            </li>
-        <% }) %>
-    </ul>
+    <% if (books.length > 0) { %>
+        <h2>Search Results:</h2>
+        <ul>
+            <% books.forEach(book => { %>
+                <li>
+                    <h3><%= book.name %></h3>
+                    <p><strong>Author:</strong> <%= book.author %></p>
+                    <!-- <p><strong>Department:</strong> <%= book.department %></p> -->
+                    <p><strong>Description:</strong> <%= book.description %></p>
+                    <% if (book.coverImage) { %>
+                        <img src="<%= book.coverImage %>" alt="Book Cover" width="100">
+                    <% } else { %>
+                        <p>No cover image available</p>
+                    <% } %>
+                </li>
+            <% }) %>
+        </ul>
+    <% } else { %>
+        <p>No books found.</p>
+    <% } %>
 
 </body>
 </html>

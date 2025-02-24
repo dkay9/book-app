@@ -6,11 +6,13 @@ const UserSchema = new mongoose.Schema({
   studentId: { 
     type: String, 
     unique: true, 
+    sparse: true,
     default: function() { return this.role === "student" ? uuidv4() : null; } 
   }, // Generate unique ID
   adminId: { 
     type: String, 
     unique: true, 
+    sparse: true,
     default: function() { return this.role === "admin" ? uuidv4() : null; } 
   }, 
   email: { type: String, required: true, unique: true },

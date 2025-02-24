@@ -2,6 +2,17 @@ const User = require("../models/User");
 const nodemailer = require("nodemailer");
 const passport = require("passport");
 
+// Render Signup Page
+exports.renderSignup = (req, res) => {
+    res.render("auth/signup");
+};
+
+// Render Login Page
+exports.renderLogin = (req, res) => {
+    res.render("auth/login");
+};
+
+// Handle Signup
 exports.signup = async (req, res) => {
   const { email, password, role = "student" } = req.body;
 
@@ -51,7 +62,8 @@ exports.login = (req, res, next) => {
   
         // Redirect based on user role
         const redirectUrl = user.role === "admin" ? "/admin/dashboard" : "/books";
-        return res.json({ message: "Login successful", user, redirectUrl });
+        // return res.json({ message: "Login successful", user, redirectUrl });
+        return res.redirect(redirectUrl); // Redirect after login
       });
     })(req, res, next);
   };

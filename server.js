@@ -25,7 +25,8 @@ require("./middleware/passport");
 // Middleware
 app.set("view engine", "ejs"); // Set EJS as template engine
 app.use(express.static("public")); // Serve static files
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.json());
  
