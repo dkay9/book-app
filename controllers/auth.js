@@ -61,7 +61,7 @@ exports.login = (req, res, next) => {
         if (err) return res.status(500).send("Login failed");
   
         // Redirect based on user role
-        const redirectUrl = user.role === "admin" ? "/admin/dashboard" : "/books";
+        const redirectUrl = user.role === "admin" ? "/admin/dashboard" : "/books/search";
         // return res.json({ message: "Login successful", user, redirectUrl });
         return res.redirect(redirectUrl); // Redirect after login
       });

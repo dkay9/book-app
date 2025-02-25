@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const bookController = require("../controllers/bookController");
 const { ensureAdmin } = require("../middleware/auth");
+const upload = require('../middleware/multer'); // Use the separate multer middleware
+const { addBook } = require('../controllers/admin');
 
 // Admin Dashboard Route (Protected)
 // router.get("/dashboard", ensureAdmin, (req, res) => {
@@ -15,5 +17,8 @@ router.get("/books/add", ensureAdmin, (req, res) => {
 
 // Handle Book Upload
 router.post("/books", ensureAdmin, bookController.addBook);
+
+// Route to add a book with an uploaded image
+router.post('/add-book', upload.single('coverImage'), addBook);
 
 module.exports = router;
