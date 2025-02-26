@@ -20,7 +20,8 @@ exports.searchBooks = async (req, res) => {
 // Controller function to save books to mongoDB
 exports.addBook = async (req, res) => {
     try {
-        const { name, author, department, description, coverImage } = req.body;
+        const { name, author, department, description } = req.body;
+        const coverImage = req.file ? req.file.path : ''; 
 
         const newBook = new Book({
             name,
