@@ -12,7 +12,11 @@ const adminRoutes = require("./routes/admin");
 
 
 require('dotenv').config({path: './config/.env'});
-console.log("Mongo URI:", process.env.DB_STRING);
+console.log("Cloudinary Config:");
+console.log("Cloud Name:", process.env.CLOUD_NAME);
+console.log("API Key:", process.env.API_KEY ? "Loaded ✅" : "Not Found ❌");
+console.log("API Secret:", process.env.API_SECRET ? "Loaded ✅" : "Not Found ❌");
+
 
 const app = express();
 

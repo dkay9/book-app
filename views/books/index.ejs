@@ -11,11 +11,17 @@
     <h1>Search for Books</h1>
 
     <form action="/books/search" method="GET">
-        <input type="text" name="query" placeholder="Search by name">
-        <input type="text" name="author" placeholder="Filter by author">
-        <input type="text" name="department" placeholder="Filter by department">
+        <input type="text" name="search" placeholder="Enter book name" value="<%= search %>" required />
+        
+        <select name="filterBy">
+            <option value="name" <%= filterBy === 'name' ? 'selected' : '' %>>By Name</option>
+            <option value="author" <%= filterBy === 'author' ? 'selected' : '' %>>By Author</option>
+            <option value="department" <%= filterBy === 'department' ? 'selected' : '' %>>By Department</option>
+        </select>
+        
         <button type="submit">Search</button>
     </form>
+
 
     <% if (books.length > 0) { %>
         <h2>Search Results:</h2>
@@ -24,10 +30,10 @@
                 <li>
                     <h3><%= book.name %></h3>
                     <p><strong>Author:</strong> <%= book.author %></p>
-                    <!-- <p><strong>Department:</strong> <%= book.department %></p> -->
+                    <p><strong>Department:</strong> <%= book.department %></p>
                     <p><strong>Description:</strong> <%= book.description %></p>
                     <% if (book.coverImage) { %>
-                        <img src="<%= book.coverImage %>" alt="Book Cover" width="100">
+                        <img src="<%= book.coverImage %>" alt="<%= book.title %> Cover" width="100">
                     <% } else { %>
                         <p>No cover image available</p>
                     <% } %>
