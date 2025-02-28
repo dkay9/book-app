@@ -11,7 +11,7 @@ const authRoutes = require("./routes/auth");
 const adminRoutes = require("./routes/admin");
 
 
-require('dotenv').config({path: './config/.env'});
+require('dotenv').config();
 console.log("Cloudinary Config:");
 console.log("Cloud Name:", process.env.CLOUD_NAME);
 console.log("API Key:", process.env.API_KEY ? "Loaded ✅" : "Not Found ❌");

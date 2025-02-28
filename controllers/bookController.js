@@ -31,20 +31,20 @@ exports.addBook = async (req, res) => {
         console.log("Received POST request:", req.body);
         console.log("File uploaded:", req.file);
 
-        const { name, author, department, description } = req.body;
-       
         if (!req.file) {
-            console.error("No file uploaded.");
-            return res.status(400).send("Please upload a cover image.");
-        }
-
-        console.log("File path from Cloudinary:", req.file.path);
-        const newBook = new Book({ name, author, department, description, coverImage: req.file.path });
-
-        await newBook.save();
-        console.log("Book successfully saved to DB!");
-
-        res.redirect("/admin/books/add");
+            console.error("❌ No file uploaded!");
+            return res.status(400).send("Image upload failed. No file received.");
+          }
+      
+          const { name, author, department, description } = req.body;
+          const coverImage = req.file.path; // Get Cloudinary URL
+      
+          const newBook = new Book({ name, author, department, description, coverImage });
+      
+          await newBook.save();
+          console.log("✅ Book successfully saved to DB:", newBook);
+      
+          res.redirect("/admin/books/add");
     } catch (err) {
         console.error("Error adding book:", err);
         res.status(500).send("Error adding book.");
