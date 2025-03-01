@@ -11,7 +11,7 @@
     <h1>Search for Books</h1>
 
     <form action="/books/search" method="GET">
-        <input type="text" name="search" placeholder="Enter book name" value="<%= search %>" required />
+        <input type="text" name="query" placeholder="Enter book name" value="<%= query %>" required />
         
         <select name="filterBy">
             <option value="name" <%= filterBy === 'name' ? 'selected' : '' %>>By Name</option>
@@ -23,26 +23,27 @@
     </form>
 
 
-    <% if (books.length > 0) { %>
-        <h2>Search Results:</h2>
-        <ul>
+    <% if (query) { %> 
+        <% if (books.length > 0) { %>
+            <!-- Loop through and display books -->
             <% books.forEach(book => { %>
-                <li>
+                <div class="book">
                     <h3><%= book.name %></h3>
                     <p><strong>Author:</strong> <%= book.author %></p>
                     <p><strong>Department:</strong> <%= book.department %></p>
                     <p><strong>Description:</strong> <%= book.description %></p>
                     <% if (book.coverImage) { %>
-                        <img src="<%= book.coverImage %>" alt="<%= book.title %> Cover" width="100">
+                        <img src="<%= book.coverImage %>" alt="<%= book.name %> Cover" width="100">
                     <% } else { %>
                         <p>No cover image available</p>
                     <% } %>
-                </li>
-            <% }) %>
-        </ul>
-    <% } else { %>
-        <p>No books found.</p>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <p>No books found.</p>
+        <% } %>
     <% } %>
+    
 
 </body>
 </html>

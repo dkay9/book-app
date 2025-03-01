@@ -4,22 +4,24 @@ const cloudinary = require("../config/cloudinary");
 // Search books by name or filter by author/department
 exports.searchBooks = async (req, res) => {
   const { query, filterBy } = req.query;
-  let filter = {}
+  let books = []
   
-  if (query) {
-    if (filterBy === "author") {
-      filter.author = { $regex: query, $options: "i" };
-    } else if (filterBy === "department") {
-      filter.department = { $regex: query, $options: "i" };
-    } else {
-      // Default to searching by book title
-      filter.name = { $regex: query, $options: "i" };
-    }
-  }
-
   try {
-    const books = await Book.find(filter);
-    res.render("books/index", { books, query, filterBy });
+    if (query) {
+        let filter = {}
+
+        if (filterBy === "author") {
+        filter.author = { $regex: query, $options: "i" };
+        } else if (filterBy === "department") {
+        filter.department = { $regex: query, $options: "i" };
+        } else {
+        // Default to searching by book title
+        filter.name = { $regex: query, $options: "i" };
+        }
+        books = await Book.find(filter);       
+    }
+
+    res.render("books/index", { books, query: query || "", filterBy: filterBy || "name" });
   } catch (err) {
     res.status(500).send("Error searching books");
   }
@@ -28,17 +30,15 @@ exports.searchBooks = async (req, res) => {
 // Controller function to save books to mongoDB
 exports.addBook = async (req, res) => {
     try {
-        console.log("Received POST request:", req.body);
-        console.log("File uploaded:", req.file);
+          console.log("Received POST request:", req.body);
+          console.log("File uploaded:", req.file);
 
-        if (!req.file) {
-            console.error("❌ No file uploaded!");
-            return res.status(400).send("Image upload failed. No file received.");
+           // Check if file uploaded successfully
+          const coverImage = req.file ? req.file.path : null; // Cloudinary URL
+
+          if (!coverImage) {
+          return res.status(400).send("Error: No image uploaded.");
           }
-      
-          const { name, author, department, description } = req.body;
-          const coverImage = req.file.path; // Get Cloudinary URL
-      
           const newBook = new Book({ name, author, department, description, coverImage });
       
           await newBook.save();
