@@ -39,7 +39,24 @@ exports.addBook = async (req, res) => {
           if (!coverImage) {
           return res.status(400).send("Error: No image uploaded.");
           }
-          const newBook = new Book({ name, author, department, description, coverImage });
+
+          // Destructure required fields from req.body
+          const { name, author, department, description, price } = req.body;
+
+          // Check if any field is missing
+          if (!name || !author || !department || !description || !price) {
+             return res.status(400).send("Error: Missing required fields.");
+          }
+
+          // Convert price to a number
+          const bookPrice = price ? parseFloat(price) : 0;
+
+          // Check if price is a valid number
+          if (isNaN(bookPrice)) {
+            return res.status(400).send("Error: Invalid price.");
+          }
+
+          const newBook = new Book({ name, author, department, description, coverImage, price: bookPrice });
       
           await newBook.save();
           console.log("✅ Book successfully saved to DB:", newBook);

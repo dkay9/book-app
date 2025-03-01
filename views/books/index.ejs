@@ -30,8 +30,9 @@
                 <div class="book">
                     <h3><%= book.name %></h3>
                     <p><strong>Author:</strong> <%= book.author %></p>
-                    <p><strong>Department:</strong> <%= book.department %></p>
-                    <p><strong>Description:</strong> <%= book.description %></p>
+                    <!-- <p><strong>Department:</strong> <%= book.department %></p>
+                    <p><strong>Description:</strong> <%= book.description %></p> -->
+                    <p><strong>Price:</strong> $<%= book.price.toFixed(2) %></p>
                     <% if (book.coverImage) { %>
                         <img src="<%= book.coverImage %>" alt="<%= book.name %> Cover" width="100">
                     <% } else { %>
