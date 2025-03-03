@@ -9,6 +9,7 @@ const MongoStore = require("connect-mongo");
 const booksRoutes = require("./routes/books");
 const authRoutes = require("./routes/auth");
 const adminRoutes = require("./routes/admin");
+const cartRoutes = require("./routes/cart");
 
 
 require('dotenv').config();
@@ -58,6 +59,8 @@ app.use("/", authRoutes);
 app.use("/auth", authRoutes);
 app.use("/books", booksRoutes);
 app.use("/admin", adminRoutes);
+app.use("/cart", cartRoutes);
+
 
 
 app.listen(process.env.PORT, ()=>{
