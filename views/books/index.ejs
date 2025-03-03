@@ -32,7 +32,7 @@
                     <p><strong>Author:</strong> <%= book.author %></p>
                     <!-- <p><strong>Department:</strong> <%= book.department %></p>
                     <p><strong>Description:</strong> <%= book.description %></p> -->
-                    <p><strong>Price:</strong> $<%= book.price.toFixed(2) %></p>
+                    <p><strong>Price:</strong> $<%= book.price ? Number(book.price).toFixed(2) : "N/A" %></p>
                     <% if (book.coverImage) { %>
                         <img src="<%= book.coverImage %>" alt="<%= book.name %> Cover" width="100">
                     <% } else { %>
@@ -44,6 +44,12 @@
             <p>No books found.</p>
         <% } %>
     <% } %>
+
+    <form action="/cart/add" method="POST">
+        <input type="hidden" name="bookId" value="<%= book._id %>">
+        <button type="submit">Add to Cart</button>
+    </form>
+    
     
 
 </body>
