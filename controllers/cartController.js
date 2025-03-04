@@ -4,7 +4,7 @@ const Book = require("../models/Book");
 exports.addToCart = async (req, res) => {
     try {
         const { bookId } = req.body;
-        const userId = req.session.userId; // Ensure the user is logged in
+        const userId = req.user ? req.user._id : null; // Ensure the user is logged in
 
         if (!userId) {
             return res.status(401).send("You must be logged in to add to cart.");
