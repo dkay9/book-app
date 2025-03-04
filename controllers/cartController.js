@@ -7,11 +7,13 @@ exports.addToCart = async (req, res) => {
         const userId = req.user ? req.user._id : null; // Ensure the user is logged in
 
         if (!userId) {
+            console.log("❌ User not logged in. Redirecting...");
             return res.status(401).send("You must be logged in to add to cart.");
         }
         // Find the book and get the price
         const book = await Book.findById(bookId);
         if (!book) {
+            console.log("❌ Book not found.");
             return res.status(404).send("Book not found.");
         }
         // Find the user's cart or create a new one
@@ -32,6 +34,7 @@ exports.addToCart = async (req, res) => {
         cart.totalPrice = cart.items.reduce((sum, item) => sum + item.quantity * item.price, 0); 
         await cart.save();
 
+        console.log("✅ Book added to cart:", cart);
         res.redirect("/cart"); // Redirect to cart page
     } catch (err) {
         console.error("Error adding to cart:", err);
@@ -42,7 +45,7 @@ exports.addToCart = async (req, res) => {
 //This fetches and displays the cart.
 exports.viewCart = async (req, res) => {
     try {
-        const userId = req.session.userId;
+        const userId = req.user ? req.user._id : null;
         if (!userId) return res.redirect("/login");
 
         const cart = await Cart.findOne({ userId }).populate("items.bookId");

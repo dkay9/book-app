@@ -2,9 +2,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
+const session = require("express-session");
 const passport = require('passport');
 const connectDB = require("./config/db");
-const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const booksRoutes = require("./routes/books");
 const authRoutes = require("./routes/auth");
@@ -43,7 +43,11 @@ app.use(
       resave: false,
       saveUninitialized: false,
       store: MongoStore.create({ mongoUrl: process.env.DB_STRING }),// Store session in mongoDB
-      cookie: { maxAge: 1000 * 60 * 60 * 24 }, // 1-day session expiry
+      cookie: { 
+        maxAge: 1000 * 60 * 60 * 24, // 1-day session expiry
+        secure: false, // Set to `true` if using HTTPS
+        httpOnly: true,
+     }, 
     })
 );
 
@@ -51,7 +55,11 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-
+// Middleware for making `req.user` available in all views
+app.use((req, res, next) => {
+    res.locals.user = req.user;
+    next();
+});
 
 
 // Routes
