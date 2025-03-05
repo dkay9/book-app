@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders page</title>
+</head>
+<body>
+    <h2>Your Orders</h2>
+    <ul>
+        <% orders.forEach(order => { %>
+            <li>
+                <strong>Order ID:</strong> <%= order._id %><br>
+                <strong>Total Price:</strong> $<%= order.totalPrice %><br>
+                <strong>Status:</strong> <%= order.status %><br>
+                <strong>Items:</strong>
+                <ul>
+                    <% order.items.forEach(item => { %>
+                        <li><%= item.name %> (x<%= item.quantity %>) - $<%= item.price %></li>
+                    <% }); %>
+                </ul>
+            </li>
+        <% }); %>
+    </ul>
+
+</body>
+</html>
