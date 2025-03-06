@@ -47,3 +47,29 @@ exports.viewOrders = async (req, res) => {
         res.status(500).send("Error fetching your orders.");
     }
 };
+
+// Function for updating an order's status if it's valid and exists
+exports.updateOrderStatus = async (req, res) => {
+    try {
+        const { orderId } = req.params;
+        const { status } = req.body;
+
+        // Ensure status is valid
+        const validStatuses = ["Pending", "Shipped", "Completed"];
+        if (!validStatuses.includes(status)) {
+            return res.status(400).send("Invalid status.");
+        }
+
+        // Update order status
+        const order = await Order.findByIdAndUpdate(orderId, { status }, { new: true });
+
+        if (!order) {
+            return res.status(404).send("Order not found.");
+        }
+
+        res.redirect("/admin/orders"); // Redirect to admin orders page
+    } catch (err) {
+        console.error("Error updating order status:", err);
+        res.status(500).send("Error updating order.");
+    }
+};

@@ -14,6 +14,7 @@
                 <strong>Total Price:</strong> $<%= order.totalPrice %><br>
                 <strong>Status:</strong> <%= order.status %><br>
                 <strong>Items:</strong>
+                <strong>Date:</strong> <%= order.createdAt.toDateString() %> <br>
                 <ul>
                     <% order.items.forEach(item => { %>
                         <li><%= item.name %> (x<%= item.quantity %>) - $<%= item.price %></li>

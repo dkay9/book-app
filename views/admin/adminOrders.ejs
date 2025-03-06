@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Orders Page</title>
+</head>
+<body>
+    <h2>Manage Orders</h2>
+
+    <% if (orders.length === 0) { %>
+        <p>No orders yet.</p>
+    <% } else { %>
+        <ul>
+            <% orders.forEach(order => { %>
+                <li>
+                    <strong>Order ID:</strong> <%= order._id %> <br>
+                    <strong>User ID:</strong> <%= order.userId %> <br>
+                    <strong>Status:</strong> <%= order.status %> <br>
+                    <strong>Total Price:</strong> $<%= order.totalPrice.toFixed(2) %> <br>
+
+                    <form action="/orders/update-status/<%= order._id %>" method="POST">
+                        <label for="status">Update Status:</label>
+                        <select name="status">
+                            <option value="Pending" <%= order.status === "Pending" ? "selected" : "" %>>Pending</option>
+                            <option value="Shipped" <%= order.status === "Shipped" ? "selected" : "" %>>Shipped</option>
+                            <option value="Completed" <%= order.status === "Completed" ? "selected" : "" %>>Completed</option>
+                        </select>
+                        <button type="submit">Update</button>
+                    </form>
+                    <hr>
+                </li>
+            <% }) %>
+        </ul>
+    <% } %>
+
+</body>
+</html>
