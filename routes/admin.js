@@ -3,8 +3,8 @@ const router = express.Router();
 const bookController = require("../controllers/bookController");
 const { ensureAdmin } = require("../middleware/auth");
 const upload = require('../middleware/multer'); // Use the separate multer middleware
-// const { addBook } = require('../controllers/admin');
 const Book = require('../models/Book'); // Import Book model
+const orderController = require("../controllers/orderController");
 
 // Admin Dashboard Route (Protected)
 router.get("/dashboard", ensureAdmin, (req, res) => {
@@ -31,7 +31,9 @@ router.get("/books/add", ensureAdmin, async (req, res) => {
 });
 
 
-// Handles Book Upload Usinf Multer and Cloudinary
+// Handles Book Upload Using Multer and Cloudinary
 router.post('/add-book', ensureAdmin, upload.single('coverImage'), bookController.addBook);
+
+router.get("/orders", ensureAdmin, orderController.viewAllOrders);
 
 module.exports = router;

@@ -73,3 +73,13 @@ exports.updateOrderStatus = async (req, res) => {
         res.status(500).send("Error updating order.");
     }
 };
+// Enables admins see all orders
+exports.viewAllOrders = async (req, res) => {
+    try {
+        const orders = await Order.find().sort({ createdAt: -1 }); // Fetch all orders
+        res.render("admin/adminOrders", { orders });
+    } catch (err) {
+        console.error("Error fetching orders:", err);
+        res.status(500).send("Error retrieving orders.");
+    }
+};
