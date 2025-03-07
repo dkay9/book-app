@@ -10,7 +10,8 @@ router.get("/", ensureAuth, orderController.viewOrders);
 router.post("/update-status/:orderId", ensureAuth, ensureAdmin, orderController.updateOrderStatus);
 // Admin routes to view orders
 router.get("/admin/orders", ensureAuth, ensureAdmin, orderController.viewAllOrders);
-
+// Route that shows confirmation page
+router.get("/confirmation", ensureAuth, orderController.confirmationPage);
 
 
 module.exports = router;

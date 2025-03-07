@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation Page</title>
+</head>
+<body>
+    <h2>Order Confirmation</h2>
+    <p>Your order has been placed successfully!</p>
+
+    <h3>Order Summary</h3>
+    <ul>
+        <% order.items.forEach(item => { %>
+            <li>
+                <strong><%= item.bookId.name %></strong> - 
+                <%= item.quantity %> x $<%= item.bookId.price.toFixed(2) %>
+            </li>
+        <% }); %>
+    </ul>
+
+    <p><strong>Total Price:</strong> $<%= order.totalPrice.toFixed(2) %></p>
+
+    <a href="/">Back to Home</a>
+
+</body>
+</html>

@@ -29,7 +29,7 @@ exports.createOrder = async (req, res) => {
         // Clear user's cart after order is placed
         await Cart.deleteOne({ userId });
 
-        res.redirect("/orders"); // Redirect to order history page
+        res.redirect("/orders/confirmation"); // Redirect to order history page
     } catch (err) {
         console.error("Error creating order:", err);
         res.status(500).send("Error processing your order.");
@@ -81,5 +81,23 @@ exports.viewAllOrders = async (req, res) => {
     } catch (err) {
         console.error("Error fetching orders:", err);
         res.status(500).send("Error retrieving orders.");
+    }
+};
+
+exports.confirmationPage = async (req, res) => {
+    try {
+        // Find the most recent order for the user
+        const order = await Order.findOne({ userId: req.user._id })
+            .sort({ createdAt: -1 })
+            .populate("items.bookId"); // Populate book details
+
+        if (!order) {
+            return res.redirect("/cart"); // Redirect if no order found
+        }
+
+        res.render("orders/confirmation", { order });
+    } catch (err) {
+        console.error("Error loading confirmation page:", err);
+        res.status(500).send("Error loading confirmation page.");
     }
 };
