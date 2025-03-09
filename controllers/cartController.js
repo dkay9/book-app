@@ -35,7 +35,7 @@ exports.addToCart = async (req, res) => {
         await cart.save();
 
         console.log("✅ Book added to cart:", cart);
-        res.redirect("/cart"); // Redirect to cart page
+        res.json({ success: true, message: "Item added to cart!", cartItemCount: cart.items.length });
     } catch (err) {
         console.error("Error adding to cart:", err);
         res.status(500).send("Error adding book to cart.");
