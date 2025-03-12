@@ -60,6 +60,7 @@ exports.addBook = async (req, res) => {
       
           await newBook.save();
           console.log("✅ Book successfully saved to DB:", newBook);
+          req.flash("success_msg", "Book uploaded successfully!");
       
           res.redirect("/admin/books/add");
     } catch (err) {

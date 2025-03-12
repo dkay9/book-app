@@ -11,7 +11,7 @@ const authRoutes = require("./routes/auth");
 const adminRoutes = require("./routes/admin");
 const cartRoutes = require("./routes/cart");
 const orderRoutes = require("./routes/order");
-
+const flash = require("connect-flash");
 
 
 require('dotenv').config();
@@ -62,6 +62,15 @@ app.use((req, res, next) => {
     res.locals.user = req.user;
     next();
 });
+
+app.use(flash());
+
+app.use((req, res, next) => {
+    res.locals.success_msg = req.flash("success_msg");
+    res.locals.error_msg = req.flash("error_msg");
+    next();
+});
+
 
 
 // Routes

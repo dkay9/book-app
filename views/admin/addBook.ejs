@@ -32,5 +32,13 @@
         <button type="submit">Add Book</button>
     </form>
 
+    <% if (success_msg) { %>
+        <div class="alert alert-success"><%= success_msg %></div>
+    <% } %>
+    
+    <% if (error_msg) { %>
+        <div class="alert alert-danger"><%= error_msg %></div>
+    <% } %>
+    
 </body>
 </html>
