@@ -45,7 +45,7 @@
                         <input type="number" id="quantity-<%= book._id %>" name="quantity" value="1" min="1">
                         <button type="submit">Add to Cart</button>
                     </form>
-                    <div id="cart-message" style="display: none;"></div>
+                    <div class="cart-message" id="cart-message-<%= book._id %>" style="display: none; color: green;"></div>
                 </div>
             <% }) %>
             <% } else { %>

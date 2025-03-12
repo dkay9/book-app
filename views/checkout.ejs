@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- Link to your CSS file -->
+</head>
+<body>
+    <h1>Checkout</h1>
+    
+    <div class="cart-summary">
+        <h2>Your Cart</h2>
+        <ul>
+            <% cart.items.forEach(item => { %>
+                <li>
+                    <strong><%= item.bookId.name %></strong> - $<%= item.price %> x <%= item.quantity %>
+                </li>
+            <% }) %>
+        </ul>
+        <p><strong>Total Price:</strong> $<%= cart.totalPrice %></p>
+    </div>
+
+    <h2>Payment Details</h2>
+    <form action="/checkout/process" method="POST">
+        <label for="card-number">Card Number (Use 4242 4242 4242 4242 for success):</label>
+        <input type="text" id="card-number" name="cardNumber" required>
+        
+        <label for="expiry">Expiry Date:</label>
+        <input type="text" id="expiry" name="expiry" placeholder="MM/YY" required>
+        
+        <label for="cvv">CVV:</label>
+        <input type="text" id="cvv" name="cvv" required>
+        
+        <button type="submit">Pay Now</button>
+    </form>
+</body>
+</html>

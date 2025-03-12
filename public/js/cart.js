@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".add-to-cart-form").forEach(form => {
         form.addEventListener("submit", function (event) {
-            event.preventDefault();
+            event.preventDefault(); // Prevent page reload
 
             const bookId = form.getAttribute("data-book-id");
             const quantity = form.querySelector("input[name='quantity']").value;
@@ -16,10 +16,16 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    const messageBox = document.getElementById("cart-message");
-                    messageBox.innerHTML = `${data.message} <a href="/cart">View Cart</a>`;
-                    messageBox.style.display = "block";
-                    messageBox.style.color = "green";
+                    // Show success message for the specific book
+                    const messageDiv = document.getElementById(`cart-message-${bookId}`);
+                    messageDiv.innerText = "Added to cart!";
+                    messageDiv.style.display = "block";
+                    messageDiv.style.color = "green";
+
+                    // Hide message after 3 seconds
+                    setTimeout(() => {
+                        messageDiv.style.display = "none";
+                    }, 3000);
                 } else {
                     alert(data.error || "Something went wrong.");
                 }
