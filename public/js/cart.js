@@ -34,3 +34,18 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
+document.addEventListener("DOMContentLoaded", async () => {
+    try {
+        const response = await fetch("/cart/count");
+        const data = await response.json();
+        const cartCountElement = document.getElementById("cart-count");
+
+        if (data.count > 0) {
+            cartCountElement.textContent = data.count;
+            cartCountElement.style.display = "inline-block";
+        }
+    } catch (error) {
+        console.error("Error fetching cart count:", error);
+    }
+});
