@@ -12,6 +12,7 @@ const adminRoutes = require("./routes/admin");
 const cartRoutes = require("./routes/cart");
 const orderRoutes = require("./routes/order");
 const flash = require("connect-flash");
+const paymentRoutes = require("./routes/payment");
 
 
 require('dotenv').config();
@@ -80,6 +81,7 @@ app.use("/books", booksRoutes);
 app.use("/admin", adminRoutes);
 app.use("/cart", cartRoutes);
 app.use("/orders", orderRoutes);
+app.use("/", paymentRoutes);
 
 
 app.listen(process.env.PORT, ()=>{

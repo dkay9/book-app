@@ -39,3 +39,16 @@ exports.processPayment = async (req, res) => {
         res.redirect("/checkout");
     }
 };
+
+exports.checkoutPage = async (req, res) => {
+    try {
+        const cart = await Cart.findOne({ userId: req.user._id }).populate("items.bookId");
+        if (!cart) {
+            return res.render("checkout", { cart: { items: [], totalPrice: 0 }, messages: req.flash() });
+        }
+        res.render("checkout", { cart, messages: req.flash() });
+    } catch (error) {
+        console.error("Error loading checkout page:", error);
+        res.redirect("/cart");
+    }
+};

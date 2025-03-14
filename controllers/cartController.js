@@ -102,3 +102,14 @@ exports.updateCart = async (req, res) => {
         res.status(500).send("Error updating cart.");
     }
 };
+
+// Return cart item count
+exports.getCartCount = async (req, res) => {
+    try {
+        const cart = await Cart.findOne({ user: req.session.userId });
+        const count = cart ? cart.items.length : 0;
+        res.json({ count });
+    } catch (error) {
+        res.status(500).json({ error: "Error fetching cart count" });
+    }
+};

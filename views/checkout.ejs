@@ -7,6 +7,13 @@
     <link rel="stylesheet" href="/css/styles.css"> <!-- Link to your CSS file -->
 </head>
 <body>
+    <% if (messages.success) { %>
+        <p style="color: green;"><%= messages.success %></p>
+    <% } %>
+    
+    <% if (messages.error) { %>
+        <p style="color: red;"><%= messages.error %></p>
+    <% } %>
     <h1>Checkout</h1>
     
     <div class="cart-summary">
@@ -21,18 +28,23 @@
         <p><strong>Total Price:</strong> $<%= cart.totalPrice %></p>
     </div>
 
-    <h2>Payment Details</h2>
-    <form action="/checkout/process" method="POST">
-        <label for="card-number">Card Number (Use 4242 4242 4242 4242 for success):</label>
-        <input type="text" id="card-number" name="cardNumber" required>
-        
-        <label for="expiry">Expiry Date:</label>
-        <input type="text" id="expiry" name="expiry" placeholder="MM/YY" required>
-        
-        <label for="cvv">CVV:</label>
-        <input type="text" id="cvv" name="cvv" required>
-        
-        <button type="submit">Pay Now</button>
-    </form>
+    <% if (cart.items.length > 0) { %>
+        <h2>Payment Details</h2>
+        <form action="/checkout" method="POST">
+            <label for="card-number">Card Number (Use 4242 4242 4242 4242 for success):</label>
+            <input type="text" id="card-number" name="cardNumber" required>
+            
+            <label for="expiry">Expiry Date:</label>
+            <input type="text" id="expiry" name="expiry" placeholder="MM/YY" required>
+            
+            <label for="cvv">CVV:</label>
+            <input type="text" id="cvv" name="cvv" required>
+            
+            <button type="submit">Pay Now</button>
+        </form>
+    <% } else { %>
+        <p>Your cart is empty. <a href="/">Go back to shop</a></p>
+    <% } %>
+    
 </body>
 </html>
