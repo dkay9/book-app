@@ -3,10 +3,15 @@ const Cart = require("../models/Cart");
 
 const processPayment = async (req, res) => {
     try {
+        console.log("Processing payment");
+
         const userId = req.user._id;
         const { cardNumber } = req.body; // Fake payment processing
 
+        console.log(" Received card number:", cardNumber);
+
         if (!cardNumber || cardNumber.length < 12) {
+            console.log("Invalid card details");
             req.flash("error", "Invalid card details.");
             return res.redirect("/checkout");
         }
@@ -14,20 +19,25 @@ const processPayment = async (req, res) => {
         // Fetch the user's cart
         const cart = await Cart.findOne({ userId });
         if (!cart || cart.items.length === 0) {
+            console.log("Cart is empty");
             req.flash("error", "Your cart is empty.");
             return res.redirect("/cart");
         }
+
+        console.log("Cat found, proceeding with order...")
 
         // Create a new order
         const newOrder = new Order({
             userId,
             items: cart.items,
             totalPrice: cart.totalPrice,
-            status: "Paid",
+            status: "Completed",
         });
 
         await newOrder.save();
         await Cart.deleteOne({ userId });
+
+        console.log("Order saved successfully!")
 
         req.flash("success", "Payment successful! Your order has been placed.");
         res.redirect("/orders");
