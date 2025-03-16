@@ -1,12 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const paymentController = require("../controllers/paymentController");
-const isAuthenticated = require("../middleware/auth");
+const { processPayment, checkoutPage } = require("../controllers/paymentController");
+const {ensureAuth} = require("../middleware/auth");
 
-// Process Payment (Handles form submission)
-router.post("/checkout", isAuthenticated, paymentController.processPayment);
+console.log("Loaded Payment Controller:", { processPayment, checkoutPage });
 
 // Route to render the checkout page
-router.get("/checkout", isAuthenticated, paymentController.checkoutPage);
+router.get("/checkout", ensureAuth, checkoutPage);
+
+// Process Payment (Handles form submission)
+router.post("/checkout", ensureAuth, processPayment);
 
 module.exports = router;

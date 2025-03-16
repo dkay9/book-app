@@ -1,9 +1,7 @@
-// controllers/paymentController.js
-
 const Order = require("../models/Order");
 const Cart = require("../models/Cart");
 
-exports.processPayment = async (req, res) => {
+const processPayment = async (req, res) => {
     try {
         const userId = req.user._id;
         const { cardNumber } = req.body; // Fake payment processing
@@ -25,11 +23,11 @@ exports.processPayment = async (req, res) => {
             userId,
             items: cart.items,
             totalPrice: cart.totalPrice,
-            status: "Paid", // Mark as paid
+            status: "Paid",
         });
 
         await newOrder.save();
-        await Cart.deleteOne({ userId }); // Clear cart after checkout
+        await Cart.deleteOne({ userId });
 
         req.flash("success", "Payment successful! Your order has been placed.");
         res.redirect("/orders");
@@ -40,15 +38,22 @@ exports.processPayment = async (req, res) => {
     }
 };
 
-exports.checkoutPage = async (req, res) => {
+const checkoutPage = async (req, res) => {
     try {
-        const cart = await Cart.findOne({ userId: req.user._id }).populate("items.bookId");
+        const userId = req.user._id;
+        const cart = await Cart.findOne({ userId }).populate("items.bookId");
+
         if (!cart) {
-            return res.render("checkout", { cart: { items: [], totalPrice: 0 }, messages: req.flash() });
+            req.flash("error", "Your cart is empty.");
+            return res.redirect("/cart");
         }
+
         res.render("checkout", { cart, messages: req.flash() });
     } catch (error) {
         console.error("Error loading checkout page:", error);
+        req.flash("error", "Something went wrong.");
         res.redirect("/cart");
     }
 };
+
+module.exports = { processPayment, checkoutPage };
