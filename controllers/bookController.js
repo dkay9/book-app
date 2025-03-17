@@ -1,38 +1,52 @@
 const Book = require("../models/Book");
 const cloudinary = require("../config/cloudinary");
+const Cart = require("../models/Cart");
 
 // Search books by name or filter by author/department
 exports.searchBooks = async (req, res) => {
   const { query, filterBy } = req.query;
-  let books = []
-  
+  let books = [];
+  let cartCount = 0;
+
   try {
-    if (query) {
-        let filter = {}
+      console.log("Received query:", query, "Filter By:", filterBy);
 
-        if (filterBy === "author") {
-        filter.author = { $regex: query, $options: "i" };
-        } else if (filterBy === "department") {
-        filter.department = { $regex: query, $options: "i" };
-        } else {
-        // Default to searching by book title
-        filter.name = { $regex: query, $options: "i" };
-        }
-        books = await Book.find(filter);       
-    }
+      if (query) {
+          let filter = {};
 
-    const cartCount = req.session.cartCount || 0; // Get cart count from session
+          if (filterBy === "author") {
+              filter.author = { $regex: query, $options: "i" };
+          } else if (filterBy === "department") {
+              filter.department = { $regex: query, $options: "i" };
+          } else {
+              filter.name = { $regex: query, $options: "i" };
+          }
 
-    res.render("books/index", { 
-      books, 
-      query: query || "", 
-      filterBy: filterBy || "name",
-      cartCount // Pass count to EJS
-    });
+          books = await Book.find(filter);
+          console.log("Books found:", books.length);
+      }
+
+      console.log("User:", req.user);
+
+      if (req.user) {
+          const cart = await Cart.findOne({ userId: req.user._id });
+          cartCount = cart?.items?.reduce((sum, item) => sum + item.quantity, 0) || 0;
+          console.log("Cart Count:", cartCount);
+      }
+
+      res.render("books/index", { 
+          books, 
+          query: query || "", 
+          filterBy: filterBy || "name",
+          cartCount
+      });
+
   } catch (err) {
-    res.status(500).send("Error searching books");
+      console.error("❌ Error searching books:", err);
+      res.status(500).send("Error searching books: " + err.message);
   }
 };
+
 
 // Controller function to save books to mongoDB
 exports.addBook = async (req, res) => {
