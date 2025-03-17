@@ -39,6 +39,11 @@ const processPayment = async (req, res) => {
 
         console.log("Order saved successfully!")
 
+        // Reset cart count
+        req.session.cart = { items: [], totalPrice: 0 };
+        req.session.cartCount = 0;
+        await req.session.save();
+
         req.flash("success", "Payment successful! Your order has been placed.");
         res.redirect("/orders");
     } catch (error) {

@@ -34,7 +34,11 @@ exports.addToCart = async (req, res) => {
         cart.totalPrice = cart.items.reduce((sum, item) => sum + item.quantity * item.price, 0); 
         await cart.save();
 
-        console.log("✅ Book added to cart:", cart);
+        // Update cart count in session
+        req.session.cartCount = cart.items.reduce((sum, item) => sum + item.quantity, 0);
+        await req.session.save();
+
+        console.log("Book added to cart:", cart);
         res.json({ success: true, message: "Item added to cart!", cartItemCount: cart.items.length });
     } catch (err) {
         console.error("Error adding to cart:", err);
@@ -49,8 +53,9 @@ exports.viewCart = async (req, res) => {
         if (!userId) return res.redirect("/login");
 
         const cart = await Cart.findOne({ userId }).populate("items.bookId");
+        const cartCount = req.session.cartCount || 0;
 
-        res.render("cart", { cart });
+        res.render("cart", { cart, cartCount });
     } catch (err) {
         console.error("Error viewing cart:", err);
         res.status(500).send("Error loading cart.");
@@ -106,10 +111,16 @@ exports.updateCart = async (req, res) => {
 // Return cart item count
 exports.getCartCount = async (req, res) => {
     try {
-        const cart = await Cart.findOne({ user: req.session.userId });
-        const count = cart ? cart.items.length : 0;
+        const userId = req.user ? req.user._id : null;
+        if (!userId) return res.json({ count: 0 });
+
+        const cart = await Cart.findOne({ userId });
+        const count = cart ? cart.items.reduce((sum, item) => sum + item.quantity, 0) : 0;
+
         res.json({ count });
     } catch (error) {
-        res.status(500).json({ error: "Error fetching cart count" });
+        console.error("Error fetching cart count:", error);
+        res.status(500).json({ count: 0 });
     }
 };
+

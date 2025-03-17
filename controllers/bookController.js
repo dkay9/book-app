@@ -21,7 +21,14 @@ exports.searchBooks = async (req, res) => {
         books = await Book.find(filter);       
     }
 
-    res.render("books/index", { books, query: query || "", filterBy: filterBy || "name" });
+    const cartCount = req.session.cartCount || 0; // Get cart count from session
+
+    res.render("books/index", { 
+      books, 
+      query: query || "", 
+      filterBy: filterBy || "name",
+      cartCount // Pass count to EJS
+    });
   } catch (err) {
     res.status(500).send("Error searching books");
   }
