@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Search</title>
     <link rel="stylesheet" href="/css/styles.css"> <!-- Link your CSS file -->
+    <link href="/css/output.css" rel="stylesheet">
 </head>
 <body>
 
-    <h1>Search for Books</h1>
+    <h1 class="text-center text-3xl">Search for Books</h1>
 
     <form action="/books/search" method="GET">
         <input type="text" name="query" placeholder="Enter book name" value="<%= query %>" required />
