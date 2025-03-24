@@ -12,7 +12,7 @@
     <h1 class="text-center text-3xl">Search for Books</h1>
 
     <form action="/books/search" method="GET">
-        <input type="text" name="query" placeholder="Enter book name" value="<%= query %>" required />
+        <input class="w-full " type="text" name="query" placeholder="Enter book name" value="<%= query %>" required />
         
         <select name="filterBy">
             <option value="name" <%= filterBy === 'name' ? 'selected' : '' %>>By Name</option>
