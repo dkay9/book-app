@@ -8,51 +8,54 @@
     <link href="/css/output.css" rel="stylesheet">
 </head>
 <body>
+    <img class="w-8 h-8 mt-4 ml-6" src="/imgs/Book-logo.png" alt="Logo">
 
-    <h1 class="text-center text-3xl">Search for Books</h1>
+    <div class="flex flex-col items-center p-6">
+        <h1 class="text-center text-3xl">Search for Books</h1>
 
-    <form action="/books/search" method="GET">
-        <input class="w-full " type="text" name="query" placeholder="Enter book name" value="<%= query %>" required />
-        
-        <select name="filterBy">
-            <option value="name" <%= filterBy === 'name' ? 'selected' : '' %>>By Name</option>
-            <option value="author" <%= filterBy === 'author' ? 'selected' : '' %>>By Author</option>
-            <option value="department" <%= filterBy === 'department' ? 'selected' : '' %>>By Department</option>
-        </select>
-        
-        <button type="submit">Search</button>
-    </form>
+        <form action="/books/search" method="GET" class="w-full max-w-md mt-4">
+            <input class="w-full border p-2 mb-2 rounded" type="text" name="query" placeholder="Enter book name" value="<%= query %>" required />
+            
+            <select name="filterBy" class="border p-2 mb-2 rounded">
+                <option value="name" <%= filterBy === 'name' ? 'selected' : '' %>>By Name</option>
+                <option value="author" <%= filterBy === 'author' ? 'selected' : '' %>>By Author</option>
+                <option value="department" <%= filterBy === 'department' ? 'selected' : '' %>>By Department</option>
+            </select>
+            
+            <button type="submit" class="w-full bg-black text-white p-2 rounded cursor-pointer">Search</button>
+        </form>
 
 
-    <% if (query) { %> 
-        <% if (books.length > 0) { %>
-            <!-- Loop through and display books -->
-            <% books.forEach(book => { %>
-                <div class="book">
-                    <h3><%= book.name %></h3>
-                    <p><strong>Author:</strong> <%= book.author %></p>
-                    <!-- <p><strong>Department:</strong> <%= book.department %></p>
-                    <p><strong>Description:</strong> <%= book.description %></p> -->
-                    <p><strong>Price:</strong> $<%= book.price ? Number(book.price).toFixed(2) : "N/A" %></p>
-                    <% if (book.coverImage) { %>
-                        <img src="<%= book.coverImage %>" alt="<%= book.name %> Cover" width="100">
-                    <% } else { %>
-                        <p>No cover image available</p>
-                    <% } %>
-                        <!-- Add to cart form -->
-                    <form class="add-to-cart-form" data-book-id="<%= book._id %>">
-                        <input type="hidden" name="bookId" value="<%= book._id %>">
-                        <label for="quantity-<%= book._id %>">Quantity:</label>
-                        <input type="number" id="quantity-<%= book._id %>" name="quantity" value="1" min="1">
-                        <button type="submit">Add to Cart</button>
-                    </form>
-                    <div class="cart-message" id="cart-message-<%= book._id %>" style="display: none; color: green;"></div>
-                </div>
-            <% }) %>
-            <% } else { %>
-                <p>No books found.</p>
-            <% } %>
-    <% } %>
+        <% if (query) { %> 
+            <% if (books.length > 0) { %>
+                <!-- Loop through and display books -->
+                <% books.forEach(book => { %>
+                    <div class="book border p-4 mb-4 w-full max-w-md">
+                        <h3><%= book.name %></h3>
+                        <p><strong>Author:</strong> <%= book.author %></p>
+                        <!-- <p><strong>Department:</strong> <%= book.department %></p>
+                        <p><strong>Description:</strong> <%= book.description %></p> -->
+                        <p><strong>Price:</strong> $<%= book.price ? Number(book.price).toFixed(2) : "N/A" %></p>
+                        <% if (book.coverImage) { %>
+                            <img src="<%= book.coverImage %>" alt="<%= book.name %> Cover" width="100">
+                        <% } else { %>
+                            <p>No cover image available</p>
+                        <% } %>
+                            <!-- Add to cart form -->
+                        <form class="add-to-cart-form" data-book-id="<%= book._id %>">
+                            <input type="hidden" name="bookId" value="<%= book._id %>">
+                            <label for="quantity-<%= book._id %>">Quantity:</label>
+                            <input type="number" id="quantity-<%= book._id %>" name="quantity" value="1" min="1">
+                            <button type="submit">Add to Cart</button>
+                        </form>
+                        <div class="cart-message" id="cart-message-<%= book._id %>" style="display: none; color: green;"></div>
+                    </div>
+                <% }) %>
+                <% } else { %>
+                    <p>No books found.</p>
+                <% } %>
+        <% } %>
+    </div>
 
     
     <nav class="navbar">
