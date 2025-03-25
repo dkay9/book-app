@@ -30,23 +30,22 @@
             <% if (books.length > 0) { %>
                 <!-- Loop through and display books -->
                 <% books.forEach(book => { %>
-                    <div class="book border p-4 mb-4 w-full max-w-md">
-                        <h3><%= book.name %></h3>
-                        <p><strong>Author:</strong> <%= book.author %></p>
-                        <!-- <p><strong>Department:</strong> <%= book.department %></p>
-                        <p><strong>Description:</strong> <%= book.description %></p> -->
-                        <p><strong>Price:</strong> $<%= book.price ? Number(book.price).toFixed(2) : "N/A" %></p>
+                    <div class="book border p-4 my-4 w-full max-w-md rounded-lg">
                         <% if (book.coverImage) { %>
                             <img src="<%= book.coverImage %>" alt="<%= book.name %> Cover" width="100">
                         <% } else { %>
                             <p>No cover image available</p>
                         <% } %>
-                            <!-- Add to cart form -->
+                        <h3><%= book.name %></h3>
+                        <p><strong>Author:</strong> <%= book.author %></p>
+                        <p><strong>Price:</strong> $<%= book.price ? Number(book.price).toFixed(2) : "N/A" %></p>
+                        
+                        <!-- Add to cart form -->
                         <form class="add-to-cart-form" data-book-id="<%= book._id %>">
                             <input type="hidden" name="bookId" value="<%= book._id %>">
                             <label for="quantity-<%= book._id %>">Quantity:</label>
                             <input type="number" id="quantity-<%= book._id %>" name="quantity" value="1" min="1">
-                            <button type="submit">Add to Cart</button>
+                            <button type="submit" class="bg-black text-white p-2 rounded cursor-pointer">Add to Cart</button>
                         </form>
                         <div class="cart-message" id="cart-message-<%= book._id %>" style="display: none; color: green;"></div>
                     </div>
