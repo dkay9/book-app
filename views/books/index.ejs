@@ -30,13 +30,14 @@
             <% if (books.length > 0) { %>
                 <!-- Loop through and display books -->
                 <% books.forEach(book => { %>
-                    <div class="book border p-4 my-4 w-full max-w-md rounded-lg">
+                    <div class="book flex flex-col md:flex-row md:gap-1 border p-4 my-4 w-full max-w-md rounded-lg">
                         <% if (book.coverImage) { %>
-                            <img src="<%= book.coverImage %>" alt="<%= book.name %> Cover" width="100">
+                            <img src="<%= book.coverImage %>" alt="<%= book.name %> Cover" width="200">
                         <% } else { %>
                             <p>No cover image available</p>
                         <% } %>
-                        <h3><%= book.name %></h3>
+                        <div>
+                            <h3><%= book.name %></h3>
                         <p><strong>Author:</strong> <%= book.author %></p>
                         <p><strong>Price:</strong> $<%= book.price ? Number(book.price).toFixed(2) : "N/A" %></p>
                         
@@ -45,18 +46,18 @@
                             <div>
                                 <input type="hidden" name="bookId" value="<%= book._id %>">
                         
-                            <!-- Label -->
-                            <label for="quantity-<%= book._id %>">Quantity:</label>
-                        
-                            <!-- Minus Button -->
-                            <button type="button" class="decrement-btn bg-gray-300 px-3 py-1 rounded text-black" data-id="<%= book._id %>">−</button>
-                        
-                            <!-- Quantity Input -->
-                            <input type="number" id="quantity-<%= book._id %>" name="quantity" value="1" min="1"
-                                class="quantity-input w-12 text-center border border-gray-300 rounded" readonly>
-                        
-                            <!-- Plus Button -->
-                            <button type="button" class="increment-btn bg-gray-300 px-3 py-1 rounded text-black" data-id="<%= book._id %>">+</button>
+                                <!-- Label -->
+                                <label for="quantity-<%= book._id %>">Quantity:</label>
+                            
+                                <!-- Minus Button -->
+                                <button type="button" class="decrement-btn bg-gray-300 px-3 py-1 rounded text-black" data-id="<%= book._id %>">−</button>
+                            
+                                <!-- Quantity Input -->
+                                <input type="number" id="quantity-<%= book._id %>" name="quantity" value="1" min="1"
+                                    class="quantity-input w-12 text-center border border-gray-300 rounded" readonly>
+                            
+                                <!-- Plus Button -->
+                                <button type="button" class="increment-btn bg-gray-300 px-3 py-1 rounded text-black" data-id="<%= book._id %>">+</button>
                             </div>
                         
                             <!-- Add to Cart Button -->
@@ -64,6 +65,7 @@
                         </form>
                         <div class="cart-message" id="cart-message-<%= book._id %>" style="display: none; color: green;"></div>
                     </div>
+                        </div>
                 <% }) %>
                 <% } else { %>
                     <p>No books found.</p>
@@ -78,9 +80,9 @@
             <li><a href="/catalogue">Catalogue</a></li>
             <li><a href="/dashboard">Dashboard</a></li>
             <li>
-                <a href="/cart" class="cart-button">
-                    🛒 Cart
-                    <span id="cart-count" class="absolute hidden -top-1 -right-2 bg-red-500 text-white text-xs py-0.5 px-1.5 rounded-ful "><%= cartCount %></span>
+                <a href="/cart" class="relative">
+                    Cart
+                    <span id="cart-count" class="absolute hidden -top-1 -right-2 bg-red-500 text-white text-xs py-0.5 px-1.5 rounded-full"><%= cartCount %></span>
                 </a>
             </li>
         </ul>
