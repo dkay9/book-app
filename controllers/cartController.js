@@ -35,7 +35,10 @@ exports.addToCart = async (req, res) => {
         await cart.save();
 
         // Update cart count in session
-        req.session.cartCount = cart.items.reduce((sum, item) => sum + item.quantity, 0);
+        // req.session.cartCount = cart.items.reduce((sum, item) => sum + item.quantity, 0);
+        // await req.session.save();
+        const totalCartCount = cart.items.reduce((sum, item) => sum + item.quantity, 0);
+        req.session.cartCount = totalCartCount;
         await req.session.save();
 
         console.log("Book added to cart:", cart);

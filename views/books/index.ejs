@@ -41,11 +41,26 @@
                         <p><strong>Price:</strong> $<%= book.price ? Number(book.price).toFixed(2) : "N/A" %></p>
                         
                         <!-- Add to cart form -->
-                        <form class="add-to-cart-form" data-book-id="<%= book._id %>">
-                            <input type="hidden" name="bookId" value="<%= book._id %>">
+                        <form class="add-to-cart-form flex flex-col space-x-2" data-book-id="<%= book._id %>">
+                            <div>
+                                <input type="hidden" name="bookId" value="<%= book._id %>">
+                        
+                            <!-- Label -->
                             <label for="quantity-<%= book._id %>">Quantity:</label>
-                            <input type="number" id="quantity-<%= book._id %>" name="quantity" value="1" min="1">
-                            <button type="submit" class="bg-black text-white p-2 rounded cursor-pointer">Add to Cart</button>
+                        
+                            <!-- Minus Button -->
+                            <button type="button" class="decrement-btn bg-gray-300 px-3 py-1 rounded text-black" data-id="<%= book._id %>">−</button>
+                        
+                            <!-- Quantity Input -->
+                            <input type="number" id="quantity-<%= book._id %>" name="quantity" value="1" min="1"
+                                class="quantity-input w-12 text-center border border-gray-300 rounded" readonly>
+                        
+                            <!-- Plus Button -->
+                            <button type="button" class="increment-btn bg-gray-300 px-3 py-1 rounded text-black" data-id="<%= book._id %>">+</button>
+                            </div>
+                        
+                            <!-- Add to Cart Button -->
+                            <button type="submit" class="bg-black text-white p-2 rounded cursor-pointer w-fit mt-2">Add to Cart</button>
                         </form>
                         <div class="cart-message" id="cart-message-<%= book._id %>" style="display: none; color: green;"></div>
                     </div>
@@ -57,15 +72,15 @@
     </div>
 
     
-    <nav class="navbar">
-        <ul>
+    <nav class="fixed bottom-0 w-full bg-white shadow-md flex justify-around items-center py-2">
+        <ul class="flex p-0 m-0 w-full justify-evenly list-none">
             <li><a href="/">Home</a></li>
             <li><a href="/catalogue">Catalogue</a></li>
             <li><a href="/dashboard">Dashboard</a></li>
             <li>
                 <a href="/cart" class="cart-button">
                     🛒 Cart
-                    <span id="cart-count"><%= cartCount %></span>
+                    <span id="cart-count" class="absolute hidden -top-1 -right-2 bg-red-500 text-white text-xs py-0.5 px-1.5 rounded-ful "><%= cartCount %></span>
                 </a>
             </li>
         </ul>

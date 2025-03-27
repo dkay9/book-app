@@ -1,57 +1,64 @@
 document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".add-to-cart-form").forEach(form => {
-        form.addEventListener("submit", function (event) {
+    // Event Delegation for Increment & Decrement Buttons
+    document.addEventListener("click", function (event) {
+        if (event.target.classList.contains("increment-btn")) {
+            const bookId = event.target.getAttribute("data-id");
+            const input = document.getElementById(`quantity-${bookId}`);
+            let value = parseInt(input.value, 10) || 1;
+            input.value = value + 1;
+        }
+
+        if (event.target.classList.contains("decrement-btn")) {
+            const bookId = event.target.getAttribute("data-id");
+            const input = document.getElementById(`quantity-${bookId}`);
+            let value = parseInt(input.value, 10) || 1;
+            if (value > 1) {
+                input.value = value - 1;
+            }
+        }
+    });
+
+    // Handle Add to Cart Form Submission
+    document.addEventListener("submit", function (event) {
+        if (event.target.classList.contains("add-to-cart-form")) {
             event.preventDefault(); // Prevent page reload
 
+            const form = event.target;
             const bookId = form.getAttribute("data-book-id");
-            const quantity = form.querySelector("input[name='quantity']").value;
+            const quantityInput = form.querySelector("input[name='quantity']");
+            const quantity = parseInt(quantityInput.value, 10) || 1; // Ensure quantity is a number
 
             fetch("/cart/add", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ bookId, quantity }),
             })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // ✅ Show success message for the specific book
+                    // Update cart count dynamically
+                    const cartCountElement = document.getElementById("cart-count");
+                    if (cartCountElement) {
+                        cartCountElement.textContent = data.cartItemCount;
+                        cartCountElement.style.display = data.cartItemCount > 0 ? "inline-block" : "none";
+                    }
+
+                    // Show success message
                     const messageDiv = document.getElementById(`cart-message-${bookId}`);
-                    messageDiv.innerText = "Added to cart!";
-                    messageDiv.style.display = "block";
-                    messageDiv.style.color = "green";
+                    if (messageDiv) {
+                        messageDiv.innerText = "Added to cart!";
+                        messageDiv.style.display = "block";
+                        messageDiv.style.color = "green";
 
-                    // ✅ Hide message after 3 seconds
-                    setTimeout(() => {
-                        messageDiv.style.display = "none";
-                    }, 3000);
-
-                    // ✅ Update cart count immediately
-                    updateCartCount();
+                        setTimeout(() => {
+                            messageDiv.style.display = "none";
+                        }, 3000);
+                    }
                 } else {
                     alert(data.error || "Something went wrong.");
                 }
             })
             .catch(error => console.error("Error:", error));
-        });
-    });
-
-    // Function to Fetch & Update Cart Count
-    async function updateCartCount() {
-        try {
-            const response = await fetch("/cart/count");
-            const data = await response.json();
-            const cartCountElement = document.getElementById("cart-count");
-
-            if (cartCountElement) {
-                cartCountElement.textContent = data.count || 0;
-                cartCountElement.style.display = data.count > 0 ? "inline-block" : "none";
-            }
-        } catch (error) {
-            console.error("Error fetching updated cart count:", error);
         }
-    }
+    });
 });
-
-
