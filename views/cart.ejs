@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="/css/styles.css"> <!-- Link your CSS file -->
     <link href="/css/output.css" rel="stylesheet">
 </head>
-<body class="p-6">
+<body class="p-6 md:flex md:flex-col md:items-center">
     <h1 class="text-lg font-semibold">My Cart</h2>
 
     <% if (cart && cart.items.length > 0) { %>
-        <section>
+        <section class="mt-4">
             <% cart.items.forEach(item => { %>
                 <div class="flex items-center gap-4 p-4 mb-4 border rounded-md w-sm">
                     <!-- Book Image -->
@@ -25,18 +25,20 @@
                             <p class="text-xs font-medium text-slate-600">Total: $<%= (item.price * item.quantity).toFixed(2) %></p>
     
                         </div>
-                        <!-- Update Quantity Form -->
-                        <form action="/cart/update" method="POST" class="mt-2">
-                            <input type="hidden" name="bookId" value="<%= item.bookId._id %>">
-                            <input type="number" name="quantity" value="<%= item.quantity %>" min="1" class="border p-1 w-16">
-                            <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded">Update</button>
-                        </form>
+                       <div class="flex gap-2">
+                            <!-- Update Quantity Form -->
+                            <form action="/cart/update" method="POST" class="mt-2">
+                                <input type="hidden" name="bookId" value="<%= item.bookId._id %>">
+                                <input type="number" name="quantity" value="<%= item.quantity %>" min="1" class="border p-1 w-16">
+                                <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded">Update</button>
+                            </form>
     
-                        <!-- Remove Book Form -->
-                        <form action="/cart/remove" method="POST" class="mt-2">
-                            <input type="hidden" name="bookId" value="<%= item.bookId._id %>">
-                            <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded">Remove</button>
-                        </form>
+                            <!-- Remove Book Form -->
+                            <form action="/cart/remove" method="POST" class="mt-2">
+                                <input type="hidden" name="bookId" value="<%= item.bookId._id %>">
+                                <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded">Remove</button>
+                            </form>
+                       </div>
                     </div>
                 </div>
             <% }) %>
