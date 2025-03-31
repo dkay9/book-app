@@ -21,7 +21,6 @@
                         <p class="text-xs font-semibold"><%= item.bookId.name %></p>
                         <div class="flex gap-3">
                             <p class="text-xs font-medium text-slate-600">$<%= item.price.toFixed(2) %></p>
-                            <!-- <p><strong>Quantity:</strong> <%= item.quantity %></p> -->
                             <p class="text-xs font-medium text-slate-600">Total: $<%= (item.price * item.quantity).toFixed(2) %></p>
     
                         </div>
@@ -53,6 +52,7 @@
         <p>Your cart is empty.</p>
     <% } %>
 
+    <!-- Navigation Bar -->
     <nav class="fixed bottom-0 w-full bg-white shadow-md flex justify-around items-center py-2">
         <ul class="flex p-0 m-0 w-full justify-evenly list-none">
             <li><a href="/books/search">Home</a></li>

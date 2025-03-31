@@ -5,47 +5,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout</title>
     <link rel="stylesheet" href="/css/styles.css"> <!-- Link to your CSS file -->
+    <link href="/css/output.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body>
-    <!-- Display Flash Message -->
-    <% if (messages.success) { %>
-        <p style="color: green;"><%= messages.success %></p>
-    <% } %>
-    
-    <% if (messages.error) { %>
-        <p style="color: red;"><%= messages.error %></p>
-    <% } %>
-    <h1>Checkout</h1>
-    
-    <div class="cart-summary">
-        <h2>Your Cart</h2>
-        <ul>
-            <% cart.items.forEach(item => { %>
-                <li>
-                    <strong><%= item.bookId.name %></strong> - $<%= item.price %> x <%= item.quantity %>
-                </li>
-            <% }) %>
-        </ul>
-        <p><strong>Total Price:</strong> $<%= cart.totalPrice %></p>
-    </div>
+<body >
+    <div class="p-4 md:flex md:flex-col md:items-center">
+        <!-- Display Flash Message -->
+        <% if (messages.success) { %>
+            <p style="color: green;"><%= messages.success %></p>
+        <% } %>
+        
+        <% if (messages.error) { %>
+            <p style="color: red;"><%= messages.error %></p>
+        <% } %>
+        <!-- <a href="/cart" class="hidden md:flex">
+            <i class="fa-solid fa-arrow-left"></i>
+        </a> -->
+        <div class="flex gap-3">
+            <a href="/cart" class=""> 
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <h1 class="text-lg font-semibold">Place Order</h1>
+        </div>
+        
+        <div class="cart-summary border-b-4 pb-4 w-sm">
+            <div class="">
+                <% cart.items.forEach(item => { %>
+                    <div class="flex border mb-4 rounded p-3 w-sm">
+                        <img src="<%= item.bookId.coverImage %>" alt="<%= item.bookId.name %>" class="w-20 h-20 object-cover rounded">
+                        <div class="p-2">
+                            <p class="text-sm font-semibold"><%= item.bookId.name %></p> <span class="text-xs font-medium text-slate-600"> $<%= item.price %> x <%= item.quantity %></span>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+            <p class="font-bold text-slate-600">Total Price: $<%= cart.totalPrice.toFixed(2) %></p>
+        </div>
 
-    <% if (cart.items.length > 0) { %>
-        <h2>Payment Details</h2>
-        <form action="/checkout" method="POST">
-            <label for="card-number">Card Number (Use 4242 4242 4242 4242 for success):</label>
-            <input type="text" id="card-number" name="cardNumber" required>
-            
-            <label for="expiry">Expiry Date:</label>
-            <input type="text" id="expiry" name="expiry" placeholder="MM/YY" required>
-            
-            <label for="cvv">CVV:</label>
-            <input type="text" id="cvv" name="cvv" required>
-            
-            <button type="submit">Pay Now</button>
-        </form>
-    <% } else { %>
-        <p>Your cart is empty. <a href="/">Go back to shop</a></p>
-    <% } %>
+        <% if (cart.items.length > 0) { %>
+            <h2 class="mt-3 font-bold text-slate-600">Shipping Details</h2>
+            <form action="/checkout" method="POST" class="mt-3 w-sm">
+                <label for="address" class="text-sm font-semibold">Delivery Address:</label>
+                <textarea id="address" name="address" rows="3" required class="w-full border p-2 rounded" placeholder="Enter your delivery address"></textarea>
+
+                <h2 class="my-3 font-bold text-slate-600">Payment Details</h2>
+                
+                <label for="card-number" class="text-sm font-semibold">Card Number (Use 4242 4242 4242 4242 for success):</label>
+                <input type="text" id="card-number" name="cardNumber" required class="w-full border p-2 rounded">
+                
+                <div class="flex gap-2 mt-3">
+                    <div class="flex flex-col">
+                        <label for="cvv" class="text-sm font-semibold">CVV:</label>
+                        <input type="text" id="cvv" name="cvv" required class="w-16 border p-2 rounded">
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="expiry" class="text-sm font-semibold">Expiry Date:</label>
+                        <input type="text" id="expiry" name="expiry" placeholder="MM/YY" required class="w-20 border p-2 rounded">
+                    </div>
+                </div>
+                
+                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded mt-3">Pay Now</button>
+            </form>
+            </form>
+        <% } else { %>
+            <p>Your cart is empty. <a href="/">Go back to shop</a></p>
+        <% } %>
+
+    </div>
     
 </body>
 </html>
