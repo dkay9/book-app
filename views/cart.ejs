@@ -29,13 +29,13 @@
                             <form action="/cart/update" method="POST" class="mt-2">
                                 <input type="hidden" name="bookId" value="<%= item.bookId._id %>">
                                 <input type="number" name="quantity" value="<%= item.quantity %>" min="1" class="border p-1 w-16">
-                                <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded">Update</button>
+                                <button type="submit" class="bg-black text-white px-2 py-1 rounded">Update</button>
                             </form>
     
                             <!-- Remove Book Form -->
                             <form action="/cart/remove" method="POST" class="mt-2">
                                 <input type="hidden" name="bookId" value="<%= item.bookId._id %>">
-                                <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded">Remove</button>
+                                <button type="submit" class="bg-black text-white px-2 py-1 rounded">Remove</button>
                             </form>
                        </div>
                     </div>
@@ -45,7 +45,7 @@
     
         <h3 class="text-xl font-bold mt-4">Total Price: $<%= cart.totalPrice.toFixed(2) %></h3>
         <form class="mb-6" action="/checkout" method="GET">
-            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded mt-4">Proceed to Checkout</button>
+            <button type="submit" class="bg-black text-white px-4 py-2 rounded mt-4">Proceed to Checkout</button>
         </form>
     
     <% } else { %>
