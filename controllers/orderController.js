@@ -39,7 +39,16 @@ exports.createOrder = async (req, res) => {
 exports.viewOrders = async (req, res) => {
     try {
         const userId = req.user._id;
-        const orders = await Order.find({ userId }).sort({ createdAt: -1 });
+        const orders = await Order.find({ userId }).sort({ createdAt: -1 }).populate("items.bookId");
+
+        // Optionally, you can ensure the item.name is set if it's missing.
+        orders.forEach(order => {
+            order.items.forEach(item => {
+                if (!item.name && item.bookId) {
+                    item.name = item.bookId.title; // Assuming book.title is the name
+                }
+            });
+        });
 
         res.render("orders", { orders });
     } catch (err) {
@@ -94,6 +103,13 @@ exports.confirmationPage = async (req, res) => {
         if (!order) {
             return res.redirect("/cart"); // Redirect if no order found
         }
+
+         // Ensure item.name is set if it's missing.
+         order.items.forEach(item => {
+            if (!item.name && item.bookId) {
+                item.name = item.bookId.title; // Assuming book.title is the name
+            }
+        });
 
         res.render("orders/confirmation", { order });
     } catch (err) {

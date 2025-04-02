@@ -4,25 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Orders page</title>
+    <link href="/css/output.css" rel="stylesheet">
 </head>
-<body>
-    <h2>Your Orders</h2>
-    <ul>
-        <% orders.forEach(order => { %>
-            <li>
-                <strong>Order ID:</strong> <%= order._id %><br>
-                <strong>Total Price:</strong> $<%= order.totalPrice %><br>
-                <strong>Status:</strong> <%= order.status %><br>
-                <strong>Items:</strong>
-                <strong>Date:</strong> <%= order.createdAt.toDateString() %> <br>
-                <ul>
-                    <% order.items.forEach(item => { %>
-                        <li><%= item.name %> (x<%= item.quantity %>) - $<%= item.price %></li>
-                    <% }); %>
-                </ul>
-            </li>
-        <% }); %>
-    </ul>
+<body class="p-4">
+    <div class="p-6">
+        <h2 class="text-lg font-semibold">Your Orders</h2>
+        <section class="mt-5">
+            <% orders.forEach(order => { %>
+                <div>
+                    <strong>Order ID:</strong> <%= order._id %><br>
+                    <strong>Total Price:</strong> $<%= order.totalPrice %><br>
+                    <strong>Status:</strong> <%= order.status %><br>
+                    <strong>Date:</strong> <%= order.createdAt.toDateString() %> <br>
+                    <ul>
+                        <% order.items.forEach(item => { %>
+                            <li><%= item.name %> (x<%= item.quantity %>) - $<%= item.price %></li>
+                        <% }); %>
+                    </ul>
+                </div>
+            <% }); %>
+        </section>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="fixed bottom-0 w-full bg-white shadow-md flex justify-around items-center py-2">
+        <ul class="flex p-0 m-0 w-full justify-evenly list-none">
+            <li><a href="/books/search">Home</a></li>
+            <li><a href="/catalogue">Catalogue</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a href="/cart" class="relative">Cart</a></li>
+        </ul>
+    </nav>
 
 </body>
 </html>
