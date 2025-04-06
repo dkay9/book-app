@@ -9,14 +9,17 @@
 </head>
 <body>
 
-    <h1>Sign Up</h1>
+    <h1 class="text-center text-2xl mt-4">Sign Up</h1>
 
-    <form action="/signup" method="POST">
-        <label>Email:</label>
-        <input type="email" name="email" required>
-
-        <label>Password:</label>
-        <input type="password" name="password" required>
+    <form action="/signup" method="POST" class="flex flex-col p-6">
+        <div class="flex">
+            <label>Email:</label>
+            <input class="border-b w-full outline-none" type="email" name="email" required>
+        </div>
+        <div class="flex mt-3">           
+            <label>Password:</label>
+            <input class="border-b w-full outline-none" type="password" name="password" required>
+        </div>
 
         <label>Role:</label>
         <select name="role">
