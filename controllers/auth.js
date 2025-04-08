@@ -16,6 +16,11 @@ exports.renderLogin = (req, res) => {
 exports.signup = async (req, res) => {
   const { email, password, role = "student" } = req.body;
 
+  // Check if passwords match
+  if (password !== confirmPassword) {
+    return res.render("auth/signup", { error: "Passwords do not match." });
+  }
+
   try {
     let existingUser = await User.findOne({ email });
     if (existingUser) return res.send("Email already registered.");
