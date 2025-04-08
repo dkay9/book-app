@@ -7,8 +7,8 @@ const Book = require('../models/Book'); // Import Book model
 const orderController = require("../controllers/orderController");
 
 // Admin Dashboard Route (Protected)
-router.get("/dashboard", ensureAdmin, (req, res) => {
-  res.render("admin/dashboard", { user: req.user }); // Pass user data to EJS
+router.get("/addBook", ensureAdmin, (req, res) => {
+  res.render("admin/addBook", { user: req.user }); // Pass user data to EJS
 });
 
 

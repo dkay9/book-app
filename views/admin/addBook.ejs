@@ -5,40 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add a New Book</title>
     <link rel="stylesheet" href="/css/styles.css">
+    <link href="/css/output.css" rel="stylesheet">
 </head>
 <body>
+    <div class="p-4">
+        <h1 class="text-center text-2xl mt-4">Welcome, Admin. This is your admin panel.</h1>
 
-    <h1>Add a New Book</h1>
 
-    <form action="/admin/add-book" method="POST" enctype="multipart/form-data">
-        <label>Book Name:</label>
-        <input type="text" name="name" required>
+        <h1 class="mt-8 text-2xl">Add a New Book</h1>
 
-        <label>Author:</label>
-        <input type="text" name="author" required>
+        <form action="/admin/add-book" method="POST" class="flex flex-col" enctype="multipart/form-data">
+            <div class="flex gap-0.5">
+                <label>Book Name:</label>
+                <input class="border rounded w-80" type="text" name="name" required>
+            </div>
 
-        <label>Department:</label>
-        <input type="text" name="department" required>
+            <div class="flex gap-0.5 mt-4">
+                <label>Author:</label>
+                <input class="border rounded w-full" type="text" name="author" required>
+            </div>
 
-        <label>Description:</label>
-        <textarea name="description" required></textarea>
+            <div class="flex gap-0.5 mt-4">
+                <label>Department:</label>
+                <input class="border rounded w-full" type="text" name="department" required>
+            </div>
 
-        <label for="price">Price:</label>
-        <input type="number" name="price" step="0.01" required>
+            <div class="flex items-center mt-4 gap-0.5">
+                <label>Description:</label>
+                <textarea class="border rounded w-full" name="description" required></textarea>
+            </div>
 
-        <label>Upload Cover Image:</label>
-        <input type="file" name="coverImage" accept="image/" placeholder="Image URL" required>
+            <div class="flex mt-4 gap-0.5">
+                <label for="price">Price:</label>
+                <input class="border rounded w-14" type="number" name="price" step="0.01" required>
+            </div>
 
-        <button type="submit">Add Book</button>
-    </form>
+            <div>
+                <label>Upload Cover Image:</label>
+                <input class="border rounded p-3" type="file" name="coverImage" accept="image/" placeholder="Image URL" required>
+            </div>
 
-    <% if (success_msg) { %>
-        <div class="alert alert-success"><%= success_msg %></div>
-    <% } %>
-    
-    <% if (error_msg) { %>
-        <div class="alert alert-danger"><%= error_msg %></div>
-    <% } %>
+            <button class="mt-4 border-0 bg-black text-white font-bold py-2 px-4 rounded-md mb-6 cursor-pointer" type="submit">Add Book</button>
+        </form>
+
+        <% if (success_msg) { %>
+            <div class="alert alert-success"><%= success_msg %></div>
+        <% } %>
+        
+        <% if (error_msg) { %>
+            <div class="alert alert-danger"><%= error_msg %></div>
+        <% } %>
+    </div>
     
 </body>
 </html>
