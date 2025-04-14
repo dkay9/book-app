@@ -8,7 +8,22 @@
     <link href="/css/output.css" rel="stylesheet">
 </head>
 <body>
-    <img class="w-8 h-8 mt-4 ml-6" src="/imgs/Book-logo.png" alt="Logo">
+    <nav class="w-full bg-white shadow-md flex justify-around items-center py-2">
+        <img class="w-8 h-8 ml-6" src="/imgs/Book-logo.png" alt="Logo">
+        <ul class="flex p-0 m-0 w-full justify-end list-none gap-14 mr-12">
+            <li><a href="/books/search">Home</a></li>
+            <!-- <li><a href="/catalogue">Catalogue</a></li>
+            <li><a href="/dashboard">Dashboard</a></li> -->
+            <li>
+                <a href="/cart" class="relative">
+                    Cart
+                    <span id="cart-count" class="absolute hidden -top-1 -right-2 bg-red-500 text-white text-xs py-0.5 px-1.5 rounded-full"><%= cartCount %></span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- <img class="w-8 h-8 mt-4 ml-6" src="/imgs/Book-logo.png" alt="Logo"> -->
 
     <div class="flex flex-col items-center p-6">
         <h1 class="text-center text-3xl">Search for Books</h1>
@@ -74,19 +89,7 @@
     </div>
 
     
-    <nav class="fixed bottom-0 w-full bg-white shadow-md flex justify-around items-center py-2">
-        <ul class="flex p-0 m-0 w-full justify-evenly list-none">
-            <li><a href="/books/search">Home</a></li>
-            <li><a href="/catalogue">Catalogue</a></li>
-            <li><a href="/dashboard">Dashboard</a></li>
-            <li>
-                <a href="/cart" class="relative">
-                    Cart
-                    <span id="cart-count" class="absolute hidden -top-1 -right-2 bg-red-500 text-white text-xs py-0.5 px-1.5 rounded-full"><%= cartCount %></span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+    
     
     
     

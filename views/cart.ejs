@@ -7,57 +7,13 @@
     <link rel="stylesheet" href="/css/styles.css"> <!-- Link your CSS file -->
     <link href="/css/output.css" rel="stylesheet">
 </head>
-<body class="p-6 md:flex md:flex-col md:items-center">
-    <h1 class="text-lg font-semibold">My Cart</h2>
-
-    <% if (cart && cart.items.length > 0) { %>
-        <section class="mt-4">
-            <% cart.items.forEach(item => { %>
-                <div class="flex items-center gap-4 p-4 mb-4 border rounded-md w-sm">
-                    <!-- Book Image -->
-                    <img src="<%= item.bookId.coverImage %>" alt="<%= item.bookId.name %>" class="w-20 h-28 object-cover rounded">
-    
-                    <div>
-                        <p class="text-xs font-semibold"><%= item.bookId.name %></p>
-                        <div class="flex gap-3">
-                            <p class="text-xs font-medium text-slate-600">$<%= item.price.toFixed(2) %></p>
-                            <p class="text-xs font-medium text-slate-600">Total: $<%= (item.price * item.quantity).toFixed(2) %></p>
-    
-                        </div>
-                       <div class="flex gap-2">
-                            <!-- Update Quantity Form -->
-                            <form action="/cart/update" method="POST" class="mt-2">
-                                <input type="hidden" name="bookId" value="<%= item.bookId._id %>">
-                                <input type="number" name="quantity" value="<%= item.quantity %>" min="1" class="border p-1 w-16">
-                                <button type="submit" class="bg-black text-white px-2 py-1 rounded">Update</button>
-                            </form>
-    
-                            <!-- Remove Book Form -->
-                            <form action="/cart/remove" method="POST" class="mt-2">
-                                <input type="hidden" name="bookId" value="<%= item.bookId._id %>">
-                                <button type="submit" class="bg-black text-white px-2 py-1 rounded">Remove</button>
-                            </form>
-                       </div>
-                    </div>
-                </div>
-            <% }) %>
-        </section>
-    
-        <h3 class="text-xl font-bold mt-4">Total Price: $<%= cart.totalPrice.toFixed(2) %></h3>
-        <form class="mb-6" action="/checkout" method="GET">
-            <button type="submit" class="bg-black text-white px-4 py-2 rounded mt-4">Proceed to Checkout</button>
-        </form>
-    
-    <% } else { %>
-        <p>Your cart is empty.</p>
-    <% } %>
-
-    <!-- Navigation Bar -->
-    <nav class="fixed bottom-0 w-full bg-white shadow-md flex justify-around items-center py-2">
-        <ul class="flex p-0 m-0 w-full justify-evenly list-none">
+<body>
+    <nav class="w-full bg-white shadow-md flex justify-around items-center py-2">
+        <img class="w-8 h-8 ml-6" src="/imgs/Book-logo.png" alt="Logo">
+        <ul class="flex p-0 m-0 w-full justify-end list-none gap-14 mr-12">
             <li><a href="/books/search">Home</a></li>
-            <li><a href="/catalogue">Catalogue</a></li>
-            <li><a href="/dashboard">Dashboard</a></li>
+            <!-- <li><a href="/catalogue">Catalogue</a></li>
+            <li><a href="/dashboard">Dashboard</a></li> -->
             <li>
                 <a href="/cart" class="relative">
                     Cart
@@ -66,6 +22,52 @@
             </li>
         </ul>
     </nav>
+
+    <div class="p-6 md:flex md:flex-col md:items-center">
+        <h1 class="text-lg font-semibold">My Cart</h2>
+
+        <% if (cart && cart.items.length > 0) { %>
+            <section class="mt-4">
+                <% cart.items.forEach(item => { %>
+                    <div class="flex items-center gap-4 p-4 mb-4 border rounded-md w-sm">
+                        <!-- Book Image -->
+                        <img src="<%= item.bookId.coverImage %>" alt="<%= item.bookId.name %>" class="w-20 h-28 object-cover rounded">
+        
+                        <div>
+                            <p class="text-xs font-semibold"><%= item.bookId.name %></p>
+                            <div class="flex gap-3">
+                                <p class="text-xs font-medium text-slate-600">$<%= item.price.toFixed(2) %></p>
+                                <p class="text-xs font-medium text-slate-600">Total: $<%= (item.price * item.quantity).toFixed(2) %></p>
+        
+                            </div>
+                            <div class="flex gap-2">
+                                <!-- Update Quantity Form -->
+                                <form action="/cart/update" method="POST" class="mt-2">
+                                    <input type="hidden" name="bookId" value="<%= item.bookId._id %>">
+                                    <input type="number" name="quantity" value="<%= item.quantity %>" min="1" class="border p-1 w-16">
+                                    <button type="submit" class="bg-black text-white px-2 py-1 rounded">Update</button>
+                                </form>
+        
+                                <!-- Remove Book Form -->
+                                <form action="/cart/remove" method="POST" class="mt-2">
+                                    <input type="hidden" name="bookId" value="<%= item.bookId._id %>">
+                                    <button type="submit" class="bg-black text-white px-2 py-1 rounded">Remove</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            </section>
+        
+            <h3 class="text-xl font-bold mt-4">Total Price: $<%= cart.totalPrice.toFixed(2) %></h3>
+            <form class="mb-6" action="/checkout" method="GET">
+                <button type="submit" class="bg-black text-white px-4 py-2 rounded mt-4">Proceed to Checkout</button>
+            </form>
+        
+        <% } else { %>
+            <p>Your cart is empty.</p>
+        <% } %>
+    </div>
 
 </body>
 </html>
